@@ -1,0 +1,164 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+:root {
+  --accent-color: #ff00ff; /* Acid Magenta */
+  --accent-color-rgb: 255, 0, 255;
+  --accent-muted: rgba(255, 0, 255, 0.1);
+  --accent-muted-hover: rgba(255, 0, 255, 0.2);
+  --accent-border: rgba(255, 0, 255, 0.3);
+  --accent-glow: rgba(255, 0, 255, 0.2);
+  --accent-glow-strong: rgba(255, 0, 255, 0.5);
+}
+
+/* ... existing styles ... */
+
+/* Rainbow border animation */
+@keyframes rainbowBorder {
+  0% { border-color: #ff00ff; box-shadow: 0 0 10px #ff00ff; }
+  33% { border-color: #00ffff; box-shadow: 0 0 10px #00ffff; }
+  66% { border-color: #ffff00; box-shadow: 0 0 10px #ffff00; }
+  100% { border-color: #ff00ff; box-shadow: 0 0 10px #ff00ff; }
+}
+
+.animate-rainbow-border {
+  animation: rainbowBorder 6s linear infinite;
+}
+
+/* Base custom font configuration fallback */
+body {
+  margin: 0;
+  background-color: #000000;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(30, 30, 30, 0.3) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(20, 20, 20, 0.3) 0px, transparent 50%);
+  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: #E0E0E0;
+}
+
+/* Custom Scrollbar Styles map to dynamic variables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.6);
+  border-left: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-border);
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-glow-strong);
+}
+
+/* Neon Glows and Helpers mapped to custom properties */
+.text-cyber-accent {
+  color: var(--accent-color);
+  text-shadow: 0 0 8px var(--accent-muted);
+}
+
+.border-cyber-accent {
+  border-color: var(--accent-border);
+}
+
+.border-cyber-accent-bold {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.bg-cyber-accent-10 {
+  background-color: var(--accent-muted);
+}
+
+.bg-cyber-accent-20 {
+  background-color: var(--accent-muted-hover);
+}
+
+.shadow-cyber-neon {
+  box-shadow: 0 0 20px var(--accent-shadow-raw, rgba(var(--accent-color-rgb), 0.1));
+}
+
+.shadow-cyber-glow-strong {
+  box-shadow: 0 0 15px var(--accent-glow-strong), inset 0 0 15px var(--accent-glow);
+}
+
+/* Scanline and Grid Effects */
+.scanline::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 99;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+/* High-tech matrix background scanning bar */
+@keyframes cyberScan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.cyber-scanner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.15;
+  animation: cyberScan 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Custom fade-in and subtle movement keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Cyber Pulse Glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.08);
+    border-color: rgba(var(--accent-color-rgb), 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.25);
+    border-color: rgba(var(--accent-color-rgb), 0.5);
+  }
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Core Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid != null && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email != null && 
+         request.auth.token.email in ['enegocio606@gmail.com', 'js4423632@gmail.com', 'davisilva8773@gmail.com', 'gabrieloliveirasantos941@gmail.com', 'iaatlas31@gmail.com']) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', 'user') == 'admin')
+      );
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. User Profiles
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+      
+      match /{allSubcollections=**} {
+         allow read, write: if isOwner(userId) || isAdmin();
+      }
+    }
+
+    // 3. Global Collections
+    match /conversations/{convoId} {
+      allow read, write: if isSignedIn() && (
+        isAdmin() || 
+        (resource != null && resource.data.uid == request.auth.uid) ||
+        (request.resource != null && request.resource.data.uid == request.auth.uid)
+      );
+      
+      match /messages/{messageId} {
+        allow read, write: if isSignedIn(); 
+      }
+    }
+
+    match /focuflow_items/{itemId} {
+      allow read, write: if isSignedIn() && (
+        isAdmin() || 
+        (resource == null || resource.data.uid == request.auth.uid) ||
+        (request.resource != null && request.resource.data.uid == request.auth.uid)
+      );
+    }
+
+    match /focuflow_accounts/{accountId} {
+      allow read, write: if isSignedIn() && (
+        isAdmin() || 
+        (resource == null || resource.data.uid == request.auth.uid) ||
+        (request.resource != null && request.resource.data.uid == request.auth.uid)
+      );
+    }
+
+    match /memories/{memoryId} {
+      allow read, write: if isSignedIn() && (
+        isAdmin() || 
+        (resource == null || resource.data.userId == request.auth.uid) ||
+        (request.resource != null && request.resource.data.userId == request.auth.uid)
+      );
+    }
+
+    match /atlas_memory/{memoryId} {
+      allow read, write: if isSignedIn() && (
+        isAdmin() || 
+        (resource == null || resource.data.uid == request.auth.uid) ||
+        (request.resource != null && request.resource.data.uid == request.auth.uid)
+      );
+    }
+
+    match /system_notifications/{notificationId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['viewCount'])
+      );
+    }
+
+    match /authorized_emails/{emailId} {
+      allow get: if isSignedIn();
+      allow list, write: if isAdmin();
+    }
+
+    match /security_logs/{logId} {
+      allow create: if isSignedIn();
+      allow read, write: if isAdmin();
+    }
+  }
+}

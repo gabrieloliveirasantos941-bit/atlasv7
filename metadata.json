@@ -1,0 +1,14 @@
+{
+  "name": "Remix: Remix: Remix: Remix: Remix: Remix: Remix: Remix: Remix: : ATLAS IA - Inteligência Artificial e Gestão Financeira",
+  "description": "Um assistente de voz e visão em tempo real com integração dinâmica ao Firebase e gestão financeira FocoFlow.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "display-capture",
+    "speaker-selection",
+    "bluetooth"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

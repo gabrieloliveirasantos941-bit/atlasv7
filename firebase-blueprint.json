@@ -1,0 +1,92 @@
+{
+  "entities": {
+    "user": {
+      "title": "User Profile",
+      "description": "User profile data including preferences and role",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "theme": { "type": "string" },
+        "customThemeColor": { "type": "string" },
+        "status": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "memory": {
+      "title": "Memory",
+      "description": "A piece of information learned by the Memory Core System",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "importance": { "type": "integer" }
+      },
+      "required": ["userId", "content", "createdAt"]
+    },
+    "conversation": {
+      "title": "Conversation",
+      "description": "A chat conversation session",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "lastMessage": { "type": "string" }
+      },
+      "required": ["uid", "createdAt"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "A message within a conversation",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["user", "assistant"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "text": { "type": "string" }
+      },
+      "required": ["role", "content", "timestamp"]
+    },
+    "focoflow_item": {
+      "title": "FocoFlow Item",
+      "description": "A generic item in the FocoFlow system (task, memory, reminder, etc.)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "title", "createdAt"]
+    },
+    "system_notification": {
+      "title": "System Notification",
+      "description": "A global system notification",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "viewCount": { "type": "integer" }
+      },
+      "required": ["title", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users": { "schema": "user", "description": "User profiles" },
+    "memories": { "schema": "memory", "description": "Learned memories" },
+    "conversations": { "schema": "conversation", "description": "Chat sessions" },
+    "conversations/{convoId}/messages": { "schema": "message", "description": "Messages for a session" },
+    "focuflow_items": { "schema": "focoflow_item", "description": "FocoFlow items" },
+    "system_notifications": { "schema": "system_notification", "description": "System notifications" },
+    "atlas_memory": { "schema": "memory", "description": "Atlas system memory" }
+  }
+}
